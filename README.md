@@ -49,7 +49,7 @@ The process to compute R<sub>t</sub> can be brieftly described as follows:
 6. Compute the posterior P(R<sub>t</sub>|*k*<sub>t</sub>)   
 7. Compute the estimate of R<sub>t</sub>, including the most-likely, the max, and the min values of R<sub>t</sub>
 
-Even the results can be viewed in the epr.html file, please try the code for yourselve!
+Even the results can be viewed in the epr.pdf file, please try the code for yourselve!
 
 ## References     
 
