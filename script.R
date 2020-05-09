@@ -52,3 +52,31 @@ Comp.Log_Likelihood <- function(Acc_Cases) {
     # Flatten the table in columns Rt, Log_Likelihood
     unnest(Log_Likelihood, Rt)
 }
+# 4. COMPUTER THE POSTERIOR OF THE EFFECTIVE REPRODUCTION RATE 
+library(zoo)     # for rollapplyr
+# Function Comp.Posterior()
+# * Input: csv dataframe of observations with the selected state's date, cases, smoothed cases, Rt, Rt's log-likelihood
+# * Output: dataframe of observations with the state's cases, smoothed cases, Rt, Rt's posterior
+Comp.Posterior <- function(likelihood) {
+  likelihood %>% arrange(Date) %>%
+    group_by(Rt) %>%
+    # Compute the posterior for every Rt by a sum of 7-day log-likelihood
+    mutate(Posterior=exp(rollapplyr(Log_Likelihood, 7, sum, partial=TRUE))) %>%
+    group_by(Date) %>%
+    # Normalize the posterior 
+    mutate(Posterior=Posterior/sum(Posterior, na.rm=TRUE)) %>%
+    # Fill missing value of posterior with 0
+    mutate(Posterior=ifelse(is.nan(Posterior), 0, Posterior)) %>%
+    ungroup() %>%
+    # Remove Log_Likelihood column
+    select(-Log_Likelihood)
+}
+
+# 5. PLOT POSTERIOR OF THE EFFECTIVE REPRODUCTION RATE
+Plot.Posterior <- function(posteriors) {
+  posteriors %>% ggplot(aes(x=Rt, y=Posterior, group=Date)) +
+    geom_line(color='#E95D0F', alpha=0.4) +
+    labs(title='Daily Posterior of Rt', subtitle=state) +
+    coord_cartesian(xlim=c(0.2, 5)) +
+    theme(plot.title=element_text(hjust=0.5, color='steelblue'))
+}
