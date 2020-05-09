@@ -50,3 +50,11 @@ The process to compute R<sub>t</sub> can be brieftly described as follows:
 7. Compute the estimate of R<sub>t</sub>, including the most-likely, the max, and the min values of R<sub>t</sub>
 
 Even the results can be viewed in the epr.html file, please try the code for yourselve!
+
+## References     
+
+1. Bettencourt LMA, Ribeiro RM (2008) Real Time Bayesian Estimation of the Epidemic Potential of Emerging Infectious Diseases. PLOS ONE 3(5): e2185. https://doi.org/10.1371/journal.pone.0002185     
+
+2. Systrom (2020) The Metric We Need to Manage COVID-19. http://systrom.com/blog/the-metric-we-need-to-manage-covid-19/     
+
+3. Du Z, Xu X, Wu Y, Wang L, Cowling BJ, Ancel Meyers L. (2020) Serial interval of COVID-19 among publicly reported confirmed cases. https://doi.org/10.3201/eid2606.200357
