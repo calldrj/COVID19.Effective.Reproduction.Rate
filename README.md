@@ -5,8 +5,8 @@ Computation of R~t~ for COVID-19 enables understanding how effectively a local o
               
 According to Bettencourt and Ribeiro's paper, the value of R~t~ can be updated everyday by the case count *k*, given by Bayes' rule:
 
-<a href="https://www.codecogs.com/eqnedit.php?latex=$$P(R_t|k)&space;=&space;\frac{P(k|R_t)P(R_t)}{P(k)}," target="_blank"><img src="https://latex.codecogs.com/gif.latex?$$P(R_t|k)&space;=&space;\frac{P(k|R_t)P(R_t)}{P(k)}," title="$$P(R_t|k) = \frac{P(k|R_t)P(R_t)}{P(k)}" /></a>, where  
-
+<a href="https://www.codecogs.com/eqnedit.php?latex=$$P(R_t|k)&space;=&space;\frac{P(k|R_t)P(R_t)}{P(k)}," target="_blank"><img src="https://latex.codecogs.com/gif.latex?$$P(R_t|k)&space;=&space;\frac{P(k|R_t)P(R_t)}{P(k)}," title="$$P(R_t|k) = \frac{P(k|R_t)P(R_t)}{P(k)}" /></a>, 
+where:
 P(*k*|R~t~) is the likelihood that the state has *k* new cases given R~t~,       
 P(R~t~) is the prior value of R~t~ (without the present of data),     
 P(*k*) is the probability that the state has *k* new cases in general.    
@@ -14,6 +14,7 @@ P(*k*) is the probability that the state has *k* new cases in general.
 Assume that for average arrival rate of $\lambda$ new cases per day, the probability of getting *k* new cases is characterized accordingly by the Poisson distribution:   
 <a href="https://www.codecogs.com/eqnedit.php?latex=P(k|\lambda)&space;=&space;\frac{\lambda^ke^{-\lambda}}{k!}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?P(k|\lambda)&space;=&space;\frac{\lambda^ke^{-\lambda}}{k!}" title="P(k|\lambda) = \frac{\lambda^ke^{-\lambda}}{k!}" /></a>    
 Bettencourt and Ribeiro also find the relationship of $\lambda$ and R~t~ as follows:
+
 <a href="https://www.codecogs.com/eqnedit.php?latex=\lambda&space;=&space;k_{t-1}e^{\gamma(R_t&space;-&space;1)}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\lambda&space;=&space;k_{t-1}e^{\gamma(R_t&space;-&space;1)}" title="\lambda = k_{t-1}e^{\gamma(R_t - 1)}" /></a>
 
 Hence, the likelihood as a Poisson distribution can be writen:      
