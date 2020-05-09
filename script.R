@@ -111,9 +111,8 @@ Plot.Rt <- function(Rt_estimated) {
 }
 
 # COMPUTATION
-
 library(readr)
-cv19 <- read_csv('./cv19/state.csv')
+cv19 <- read_csv('state.csv')
 
 # Select a list of the U.S. states for modelling
 states <- c('NY', 'CA', 'MI', 'LA')       # New York, California, Michigan, Louisanna
