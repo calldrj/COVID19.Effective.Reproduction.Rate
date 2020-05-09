@@ -5,7 +5,7 @@ Computation of R~t~ for COVID-19 enables understanding how effectively a local o
               
 According to Bettencourt and Ribeiro's paper, the value of R~t~ can be updated everyday by the case count *k*, given by Bayes' rule:
 
-$$P(R_t|k) = \frac{P(k|R_t)P(R_t)}{P(k)}, where$$   
+<a href="https://www.codecogs.com/eqnedit.php?latex=$$P(R_t|k)&space;=&space;\frac{P(k|R_t)P(R_t)}{P(k)}," target="_blank"><img src="https://latex.codecogs.com/gif.latex?$$P(R_t|k)&space;=&space;\frac{P(k|R_t)P(R_t)}{P(k)}," title="$$P(R_t|k) = \frac{P(k|R_t)P(R_t)}{P(k)}," /></a>, where$$   
 P(*k*|R~t~) is the likelihood that the state has *k* new cases given R~t~,       
 P(R~t~) is the prior value of R~t~ (without the present of data),     
 P(*k*) is the probability that the state has *k* new cases in general.    
