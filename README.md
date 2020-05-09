@@ -1,11 +1,10 @@
-# INTRODUCTION    
 The effective reproduction rate of a pandemic, R<sub>0</sub>, is defined as  is the average number of secondary cases per infectious case in a population made up of both susceptible and non-susceptible hosts. However, in COVID-19 pandemic, a static R<sub>0</sub> does not adequately reflect the reality in time and space due to changes in social behaviors and restrictions. For example, New York certainly has a different effective reproduction rate from Idaho. Even New York today has a different effective reproduction than it did in last weeks. That is why Kevin Systrom promotes an idea that the effective reproduction rate of COVID-19 should be a variable of time and space denoted as R<sub>t</sub>.     
               
 Computation of R<sub>t</sub> for COVID-19 enables understanding how effectively a local or state government handles the pandemic and gives the authority helpful information in decision to losen and tighten measures of social restrictions. As the pandemic spreads with great acceleration, R<sub>t</sub> is much more larger than 1. On the contrary, As the pandemic slows down and dies out, R<sub>t</sub> is smaller than 1 and approaches 0. This project focuses on computation of R<sub>t</sub> for every state on the U.S. based on the number of new cases *k* reported daily by the state's Department of Health. The value of R<sub>t</sub> is related to that of a day before R<sub>t-1</sub>, and every previous value of *n* days before, R<sub>t-n</sub>.            
               
 According to Bettencourt and Ribeiro's paper, the value of R<sub>t</sub> can be updated everyday by the case count *k*, given by Bayes' rule:
 
-<a href="https://www.codecogs.com/eqnedit.php?latex=$$P(R_t|k)&space;=&space;\frac{P(k|R_t)P(R_t)}{P(k)}," target="_blank"><img src="https://latex.codecogs.com/gif.latex?$$P(R_t|k)&space;=&space;\frac{P(k|R_t)P(R_t)}{P(k)}" title="$$P(R_t|k) = \frac{P(k|R_t)P(R_t)}{P(k)}" /></a>, 
+<a href="https://www.codecogs.com/eqnedit.php?latex=$$P(R_t|k)&space;=&space;\frac{P(k|R_t)P(R_t)}{P(k)}," target="_blank"><img src="https://latex.codecogs.com/gif.latex?$$P(R_t|k)&space;=&space;\frac{P(k|R_t)P(R_t)}{P(k)}" title="$$P(R_t|k) = \frac{P(k|R_t)P(R_t)}{P(k)}" /></a> 
 
 where:
 
