@@ -1,6 +1,3 @@
-library(readr)
-cv19 <- read_csv('state.csv')
-
 # 1. SMOOTH THE DATA IN GAUSSIAN-WINDOW OF ONE-WEEK INTERVAL
 library(smoother)   # for smth()
 library(magrittr)   # for pipe %>% operator
@@ -12,4 +9,46 @@ Smooth.Cases <- function(Cases) {
   Cases %>% arrange(Date) %>%
     mutate(Cases_Smth=round(smth(Cases, window=7, tails=TRUE))) %>%
     select(Date, Cases, Cases_Smth)
+}
+# 2. VISUALIZE DATA FOR SANITY CHECK
+library(plotly)   # for interactive plot ggplotly
+Plot.Smth <- function(Smoothed_Cases) {
+  plot <- Smoothed_Cases %>% ggplot(aes(x=Date, y=Cases)) +
+    geom_line(linetype='dotted', color='#429890') + 
+    geom_line(aes(y=Cases_Smth), color='#E95D0F') +
+    labs(title='Daily Confirmed Cases (Original & Smoothed)', x=NULL, y=NULL) +
+    theme(plot.title=element_text(hjust=0.5, color='steelblue'))
+} 
+
+# 3. COMPUTE THE EFFECTIVE REPRODUCTION RATE & LOG-LIKELIHOOD 
+library(purrr)    # for map() and map
+library(tidyr)    # for unnest
+
+RT_MAX <- 10      # the max value of Effective Reproduction Rate Rt
+# Generate a set of RT_MAX * 100 + 1 Effective Reproduction Rate value Rt
+rt_set <- seq(0, RT_MAX, length=RT_MAX * 100 + 1)
+
+# Gamma = 1/serial interval
+# The serial interval of COVID-19 is defined as the time duration between a primary case-patient (infector) 
+# having symptom onset and a secondary case-patient (infectee) having symptom onset. The mean interval was 3.96 days.
+# https://wwwnc.cdc.gov/eid/article/26/6/20-0357_article
+GAMMA = 1/4
+
+# Comp.Log_Likelihood()
+# * Input: csv dataframe of observations with the selected state's date, cases, smoothed cases
+# * Output: dataframe of observations with the state's cases, smoothed cases, Rt, Rt's log-likelihood
+Comp.Log_Likelihood <- function(Acc_Cases) {
+  likelihood <- Acc_Cases %>% filter(Cases_Smth > 0) %>%
+    # Vectorize rt_set to form Rt column
+    mutate(Rt=list(rt_set),
+           # Compute lambda starting from the second to the last observation
+           Lambda=map(lag(Cases_Smth, 1), ~ .x * exp(GAMMA * (rt_set - 1))),
+           # Compute the log likelihood for every observation
+           Log_Likelihood=map2(Cases_Smth, Lambda, dpois, log=TRUE)) %>%
+    # Remove the first observation
+    slice(-1) %>%
+    # Remove Lambda column
+    select(-Lambda) %>%
+    # Flatten the table in columns Rt, Log_Likelihood
+    unnest(Log_Likelihood, Rt)
 }
