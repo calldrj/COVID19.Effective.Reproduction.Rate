@@ -5,8 +5,10 @@ Computation of R~t~ for COVID-19 enables understanding how effectively a local o
               
 According to Bettencourt and Ribeiro's paper, the value of R~t~ can be updated everyday by the case count *k*, given by Bayes' rule:
 
-<a href="https://www.codecogs.com/eqnedit.php?latex=$$P(R_t|k)&space;=&space;\frac{P(k|R_t)P(R_t)}{P(k)}," target="_blank"><img src="https://latex.codecogs.com/gif.latex?$$P(R_t|k)&space;=&space;\frac{P(k|R_t)P(R_t)}{P(k)}," title="$$P(R_t|k) = \frac{P(k|R_t)P(R_t)}{P(k)}" /></a>, 
+<a href="https://www.codecogs.com/eqnedit.php?latex=$$P(R_t|k)&space;=&space;\frac{P(k|R_t)P(R_t)}{P(k)}," target="_blank"><img src="https://latex.codecogs.com/gif.latex?$$P(R_t|k)&space;=&space;\frac{P(k|R_t)P(R_t)}{P(k)}" title="$$P(R_t|k) = \frac{P(k|R_t)P(R_t)}{P(k)}" /></a>, 
+
 where:
+
 P(*k*|R~t~) is the likelihood that the state has *k* new cases given R~t~,       
 P(R~t~) is the prior value of R~t~ (without the present of data),     
 P(*k*) is the probability that the state has *k* new cases in general.    
@@ -26,7 +28,8 @@ In addition, the posterior of the current day P(R~t~|*k~t~*) can be computed fro
 
 <a href="https://www.codecogs.com/eqnedit.php?latex=P(R_t|k_t)&space;\quad\alpha\quad&space;P(R_0)\prod_{j=0}^{t}&space;P(k_j|R_j)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?P(R_t|k_t)&space;\quad\alpha\quad&space;P(R_0)\prod_{j=0}^{t}&space;P(k_j|R_j)" title="P(R_t|k_t) \quad\alpha\quad P(R_0)\prod_{j=0}^{t} P(k_j|R_j)" /></a>
 
-Assume that prior P(R~0~) is a a uniform distribution, then 
+Assume that prior P(R~0~) is a a uniform distribution, then
+
 <a href="https://www.codecogs.com/eqnedit.php?latex=P(R_t|k_t)&space;\quad\alpha\quad&space;\prod_{j=0}^{t}&space;P(k_j|R_j)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?P(R_t|k_t)&space;\quad\alpha\quad&space;\prod_{j=0}^{t}&space;P(k_j|R_j)" title="P(R_t|k_t) \quad\alpha\quad \prod_{j=0}^{t} P(k_j|R_j)" /></a>     
 
 Assume that the priors of the last 7 days place a dominant impact on the current prior, then
