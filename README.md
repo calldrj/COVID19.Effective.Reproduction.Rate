@@ -47,4 +47,5 @@ The process to compute R<sub>t</sub> can be brieftly described as follows:
 4. Smooth out the daily counts to flatten the choppy data points     
 5. Compute the log-likelihood distribution P(*k*|R<sub>t</sub>)     
 6. Compute the posterior P(R<sub>t</sub>|*k*<sub>t</sub>)   
-7. Compute the estimate of R<sub>t</sub>, including the most-likely, the max, and the min values of R<sub>t</sub>   
+7. Compute the estimate of R<sub>t</sub>, including the most-likely, the max, and the min values of R<sub>t</sub>
+Even the results can be viewed in the .pdf file, please try the the code for yourselve!
