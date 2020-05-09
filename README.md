@@ -13,22 +13,28 @@ P(*k*) is the probability that the state has *k* new cases in general.
 
 Assume that for average arrival rate of $\lambda$ new cases per day, the probability of getting *k* new cases is characterized accordingly by the Poisson distribution:   
 <a href="https://www.codecogs.com/eqnedit.php?latex=P(k|\lambda)&space;=&space;\frac{\lambda^ke^{-\lambda}}{k!}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?P(k|\lambda)&space;=&space;\frac{\lambda^ke^{-\lambda}}{k!}" title="P(k|\lambda) = \frac{\lambda^ke^{-\lambda}}{k!}" /></a>    
-Bettencourt and Ribeiro also find the relationship of $\lambda$ and R~t~ as follows:  
+Bettencourt and Ribeiro also find the relationship of $\lambda$ and R~t~ as follows:
 <a href="https://www.codecogs.com/eqnedit.php?latex=\lambda&space;=&space;k_{t-1}e^{\gamma(R_t&space;-&space;1)}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\lambda&space;=&space;k_{t-1}e^{\gamma(R_t&space;-&space;1)}" title="\lambda = k_{t-1}e^{\gamma(R_t - 1)}" /></a>
+
 Hence, the likelihood as a Poisson distribution can be writen:      
-<a href="https://www.codecogs.com/eqnedit.php?latex=P(k|R_t)&space;=&space;\frac{\lambda^ke^{-\lambda}}{k!}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?P(k|R_t)&space;=&space;\frac{\lambda^ke^{-\lambda}}{k!}" title="P(k|R_t) = \frac{\lambda^ke^{-\lambda}}{k!}" /></a>, where 
-$\gamma$ is the reciprocal of the serial interval defined as the time duration between a primary case-patient (infector) having symptom onset and a secondary case-patient (infectee) having symptom onset. The mean of the serial interval for COVID-19 was 3.96 days according to CDC recent source.  
+<a href="https://www.codecogs.com/eqnedit.php?latex=P(k|R_t)&space;=&space;\frac{\lambda^ke^{-\lambda}}{k!}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?P(k|R_t)&space;=&space;\frac{\lambda^ke^{-\lambda}}{k!}" title="P(k|R_t) = \frac{\lambda^ke^{-\lambda}}{k!}" /></a>, 
+where $\gamma$ is the reciprocal of the serial interval defined as the time duration between a primary case-patient (infector) having symptom onset and a secondary case-patient (infectee) having symptom onset. The mean of the serial interval for COVID-19 was 3.96 days according to CDC recent source.  
           
 In addition, the posterior of the current day P(R~t~|*k~t~*) can be computed from the previous day P(R~t-1~|*k~t-1~*):
 <a href="https://www.codecogs.com/eqnedit.php?latex=P(R_t|k_t)&space;\quad\alpha\quad&space;P(R_{t-1}|k_{t-1})P(k_t|R_t)&space;\quad\alpha\quad&space;P(R_{t-2}|k_{t-2})P(k_{t-1}|R_{t-1})P(k_t|R_t)&space;\quad&space;..." target="_blank"><img src="https://latex.codecogs.com/gif.latex?P(R_t|k_t)&space;\quad\alpha\quad&space;P(R_{t-1}|k_{t-1})P(k_t|R_t)&space;\quad\alpha\quad&space;P(R_{t-2}|k_{t-2})P(k_{t-1}|R_{t-1})P(k_t|R_t)&space;\quad&space;..." title="P(R_t|k_t) \quad\alpha\quad P(R_{t-1}|k_{t-1})P(k_t|R_t) \quad\alpha\quad P(R_{t-2}|k_{t-2})P(k_{t-1}|R_{t-1})P(k_t|R_t) \quad ..." /></a>
+
 <a href="https://www.codecogs.com/eqnedit.php?latex=P(R_t|k_t)&space;\quad\alpha\quad&space;P(R_0)\prod_{j=0}^{t}&space;P(k_j|R_j)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?P(R_t|k_t)&space;\quad\alpha\quad&space;P(R_0)\prod_{j=0}^{t}&space;P(k_j|R_j)" title="P(R_t|k_t) \quad\alpha\quad P(R_0)\prod_{j=0}^{t} P(k_j|R_j)" /></a>
+
 Assume that prior P(R~0~) is a a uniform distribution, then 
 <a href="https://www.codecogs.com/eqnedit.php?latex=P(R_t|k_t)&space;\quad\alpha\quad&space;\prod_{j=0}^{t}&space;P(k_j|R_j)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?P(R_t|k_t)&space;\quad\alpha\quad&space;\prod_{j=0}^{t}&space;P(k_j|R_j)" title="P(R_t|k_t) \quad\alpha\quad \prod_{j=0}^{t} P(k_j|R_j)" /></a>     
+
 Assume that the priors of the last 7 days place a dominant impact on the current prior, then
 
 <a href="https://www.codecogs.com/eqnedit.php?latex=P(R_t|k_t)&space;\quad\alpha\quad&space;\prod_{j=t-7}^{t}&space;P(k_j|R_j)&space;\quad\alpha\quad&space;exp(\sum_{j=t-7}^{t}&space;log(P(k_j|R_j)))" target="_blank"><img src="https://latex.codecogs.com/gif.latex?P(R_t|k_t)&space;\quad\alpha\quad&space;\prod_{j=t-7}^{t}&space;P(k_j|R_j)&space;\quad\alpha\quad&space;exp(\sum_{j=t-7}^{t}&space;log(P(k_j|R_j)))" title="P(R_t|k_t) \quad\alpha\quad \prod_{j=t-7}^{t} P(k_j|R_j) \quad\alpha\quad exp(\sum_{j=t-7}^{t} log(P(k_j|R_j)))" /></a>
+
 Finally, a marginalization of the distribution over R~t~, P(*k*~t~) can be obtained by:    
 <a href="https://www.codecogs.com/eqnedit.php?latex=P(k_t)&space;=&space;\sum_{R_t}&space;P(k_j|R_j)P(R_j)" target="_blank"><img src="https://latex.codecogs.com/gif.latex?P(k_t)&space;=&space;\sum_{R_t}&space;P(k_j|R_j)P(R_j)" title="P(k_t) = \sum_{R_t} P(k_j|R_j)P(R_j)" /></a>
+
 For this project, we use the data that we scraps from a Wikipedia page where daily counts of new COVID-19 cases are reported by every state's Department of Health. The data is then cleaned and wrangled in a proper dataframe containing the daily count of each state. We select New York, California, Michigan, Louisiana to compute these individual states' effective reproduction rate of the COVID-19 pandemic, R~t~. Every state's R~t~ can be computed at users' choice by modifying the vector __states__ in the following code segment.    
                     
 The process to compute R~t~ can be brieftly described as follows:         
