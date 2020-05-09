@@ -110,3 +110,73 @@ Plot.Rt <- function(Rt_estimated) {
     theme(plot.title=element_text(hjust=0.5, color='steelblue'))
 }
 
+# COMPUTATION
+
+library(readr)
+cv19 <- read_csv('./cv19/state.csv')
+
+# Select a list of the U.S. states for modelling
+states <- c('NY', 'CA', 'MI', 'LA')       # New York, California, Michigan, Louisanna
+
+# Plot the original and smoothed cases
+df_cv19 <- list()                         # initialize list of plots for each of states
+for (i in 1:length(states)) {
+  state <- states[i]
+  df_S <- cv19 %>% select(Date, state) %>% 
+    rename(Cases=state) %>% 
+    Smooth.Cases()
+  gplot <- df_S %>% Plot.Smth()
+  plot <- ggplotly(gplot) %>% add_annotations(text=state,
+                                              font=list(size=14, color='#B51C35'),
+                                              xref='paper', yref='paper', x=0, y=0, showarrow=FALSE)
+  if (i == 1) {
+    plot <- plot %>% add_annotations(text='.... Original', 
+                                     font=list(size=14, color='#429890'),
+                                     xref='paper', yref='paper', x=0.2, y=0, showarrow=FALSE) %>%
+      add_annotations(text='--- Smoothed', 
+                      font=list(size=14, color='#E95D0F'),
+                      xref='paper', yref='paper', x=0.4, y=0, showarrow=FALSE)
+  }
+  df_cv19[[i]] <- plot
+}
+df_cv19 %>% subplot(nrows=length(states), shareX=TRUE)
+
+# Plot the posteriors of Rt for each state in the list
+df_cv19 <- list()                          # reset list of plots for each of states
+for (i in 1:length(states)) {
+  state <- states[i]
+  df_P <- cv19 %>% select(Date, state) %>% 
+    rename(Cases=state) %>% 
+    Smooth.Cases %>%
+    Comp.Log_Likelihood() %>%
+    Comp.Posterior()
+  gplot <- df_P %>% Plot.Posterior()
+  
+  plot <- ggplotly(gplot) %>% add_annotations(text=state,
+                                              font=list(size=14, color='#B51C35'),
+                                              xref='paper', yref='paper', x=0, y=1, showarrow=FALSE)
+  
+  df_cv19[[i]] <- plot
+}
+df_cv19 %>% subplot(nrows=length(states), shareX=TRUE)
+
+# Compute and plot the max, min, and most-likely values of Rt for each state in the list
+df_cv19 <- list()                        # reset list of plots for each of states
+Rt_estimate_list <- list()               # initialize a list of estimated Rt dataframe for each state in the list
+for (i in 1:length(states)) {
+  state <- states[i]
+  df_R <- cv19 %>% select(Date, state) %>% 
+    rename(Cases=state) %>% 
+    Smooth.Cases %>%
+    Comp.Log_Likelihood() %>%
+    Comp.Posterior() %>%
+    Estimate.Rt()
+  Rt_estimate_list[[state]] <- df_R
+  gplot <- df_R %>% Plot.Rt()
+  
+  plot <- ggplotly(gplot) %>% add_annotations(text=state,
+                                              font=list(size=14, color='#B51C35'),
+                                              xref='paper', yref='paper', x=1, y=1, showarrow=FALSE)
+  df_cv19[[i]] <- plot
+}
+df_cv19 %>% subplot(nrows=length(states), shareX=TRUE)
