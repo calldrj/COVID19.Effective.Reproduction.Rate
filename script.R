@@ -10,6 +10,7 @@ Smooth.Cases <- function(Cases) {
     mutate(Cases_Smth=round(smth(Cases, window=7, tails=TRUE))) %>%
     select(Date, Cases, Cases_Smth)
 }
+
 # 2. VISUALIZE DATA FOR SANITY CHECK
 library(plotly)   # for interactive plot ggplotly
 Plot.Smth <- function(Smoothed_Cases) {
@@ -52,6 +53,7 @@ Comp.Log_Likelihood <- function(Acc_Cases) {
     # Flatten the table in columns Rt, Log_Likelihood
     unnest(Log_Likelihood, Rt)
 }
+
 # 4. COMPUTER THE POSTERIOR OF THE EFFECTIVE REPRODUCTION RATE 
 library(zoo)     # for rollapplyr
 # Function Comp.Posterior()
@@ -80,3 +82,31 @@ Plot.Posterior <- function(posteriors) {
     coord_cartesian(xlim=c(0.2, 5)) +
     theme(plot.title=element_text(hjust=0.5, color='steelblue'))
 }
+
+# 6. ESTIMATE THE EFFECTIVE REPRODUCTION RATE
+library(HDInterval)
+# Function Estimate.Rt()
+# * Input: csv dataframe of observations with the selected state's cases, smoothed cases, Rt, Rt's posterior
+# * Output: dataframe of observations with the state's Rt, Rt_max, Rt_min
+
+Estimate.Rt <- function(posteriors) {
+  posteriors %>% group_by(Date) %>%
+    summarize(Rts_sampled=list(sample(rt_set, 10000, replace=TRUE, prob=Posterior)),
+              Rt_MLL=rt_set[which.max(Posterior)]) %>%
+    mutate(Rt_MIN=map_dbl(Rts_sampled, ~ hdi(.x)[1]),
+           Rt_MAX=map_dbl(Rts_sampled, ~ hdi(.x)[2])) %>%
+    select(-Rts_sampled)
+}
+
+# 7. PLOT THE THE EFFECTIVE REPRODUCTION RATE'S APPROXIMATION
+Plot.Rt <- function(Rt_estimated) {
+  plot <- Rt_estimated %>% ggplot(aes(x=Date, y=Rt_MLL)) +
+    geom_point(color='#429890', alpha=0.5, size=1) +
+    geom_line(color='#E95D0F') +
+    geom_hline(yintercept=1, linetype='dashed', color='red') +
+    geom_ribbon(aes(ymin=Rt_MIN, ymax=Rt_MAX), fill='black', alpha=0.5) +
+    labs(title='Estimated Effective Reproduction Rate Rt', x=NULL, y='Rt') +
+    coord_cartesian(ylim=c(0, 4)) +
+    theme(plot.title=element_text(hjust=0.5, color='steelblue'))
+}
+
