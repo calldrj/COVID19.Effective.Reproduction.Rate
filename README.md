@@ -1,7 +1,7 @@
 # INTRODUCTION    
 The effective reproduction rate of a pandemic, R<sub>0</sub>, is defined as  is the average number of secondary cases per infectious case in a population made up of both susceptible and non-susceptible hosts. However, in COVID-19 pandemic, a static R<sub>0</sub> does not adequately reflect the reality in time and space due to changes in social behaviors and restrictions. For example, New York certainly has a different effective reproduction rate from Idaho. Even New York today has a different effective reproduction than it did in last weeks. That is why Kevin Systrom promotes an idea that the effective reproduction rate of COVID-19 should be a variable of time and space denoted as R<sub>t</sub>.     
               
-Computation of R<sub>t</sub> for COVID-19 enables understanding how effectively a local or state government handles the pandemic and gives the authority helpful information in decision to losen and tighten measures of social restrictions. As the pandemic spreads with great acceleration, R<sub>t</sub> is much more larger than 1. On the contrary, As the pandemic slows down and dies out, R~t~ is smaller than 1 and approaches 0. This project focuses on computation of R<sub>t</sub> for every state on the U.S. based on the number of new cases *k* reported daily by the state's Department of Health. The value of R<sub>t</sub> is related to that of a day before R<sub>t-1</sub>, and every previous value of *n* days before, R<sub>t-n</sub>.            
+Computation of R<sub>t</sub> for COVID-19 enables understanding how effectively a local or state government handles the pandemic and gives the authority helpful information in decision to losen and tighten measures of social restrictions. As the pandemic spreads with great acceleration, R<sub>t</sub> is much more larger than 1. On the contrary, As the pandemic slows down and dies out, R<sub>t</sub> is smaller than 1 and approaches 0. This project focuses on computation of R<sub>t</sub> for every state on the U.S. based on the number of new cases *k* reported daily by the state's Department of Health. The value of R<sub>t</sub> is related to that of a day before R<sub>t-1</sub>, and every previous value of *n* days before, R<sub>t-n</sub>.            
               
 According to Bettencourt and Ribeiro's paper, the value of R<sub>t</sub> can be updated everyday by the case count *k*, given by Bayes' rule:
 
@@ -13,9 +13,9 @@ P(*k*|R<sub>t</sub>) is the likelihood that the state has *k* new cases given R<
 P(R<sub>t</sub>) is the prior value of R<sub>t</sub> (without the present of data),     
 P(*k*) is the probability that the state has *k* new cases in general.    
 
-Assume that for average arrival rate of \lambda new cases per day, the probability of getting *k* new cases is characterized accordingly by the Poisson distribution:   
+Assume that for average arrival rate of<img src="https://latex.codecogs.com/gif.latex?\lamda&space;\lambda" title="\lamda \lambda" />new cases per day, the probability of getting *k* new cases is characterized accordingly by the Poisson distribution:   
 <a href="https://www.codecogs.com/eqnedit.php?latex=P(k|\lambda)&space;=&space;\frac{\lambda^ke^{-\lambda}}{k!}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?P(k|\lambda)&space;=&space;\frac{\lambda^ke^{-\lambda}}{k!}" title="P(k|\lambda) = \frac{\lambda^ke^{-\lambda}}{k!}" /></a>    
-Bettencourt and Ribeiro also find the relationship of \lambda and R~t~ as follows:
+Bettencourt and Ribeiro also find the relationship of<img src="https://latex.codecogs.com/gif.latex?\lamda&space;\lambda" title="\lamda \lambda" />and R<sub>t</sub> as follows:
 
 <a href="https://www.codecogs.com/eqnedit.php?latex=\lambda&space;=&space;k_{t-1}e^{\gamma(R_t&space;-&space;1)}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\lambda&space;=&space;k_{t-1}e^{\gamma(R_t&space;-&space;1)}" title="\lambda = k_{t-1}e^{\gamma(R_t - 1)}" /></a>
 
@@ -41,7 +41,7 @@ Finally, a marginalization of the distribution over R<sub>t</sub>, P(*k*<sub>t</
 
 For this project, we use the data that we scraps from a Wikipedia page where daily counts of new COVID-19 cases are reported by every state's Department of Health. The data is then cleaned and wrangled in a proper dataframe containing the daily count of each state. We select New York, California, Michigan, Louisiana to compute these individual states' effective reproduction rate of the COVID-19 pandemic, R<sub>t</sub>. Every state's R<sub>t</sub> can be computed at users' choice by modifying the vector __states__ in the following code segment.    
                     
-The process to compute R~t~ can be brieftly described as follows:         
+The process to compute R<sub>t</sub> can be brieftly described as follows:         
 1. Import the all states' daily counts to a dataframe       
 2. Initialize a value of \gamma and a set of discrete values of R<sub>t</sub>            
 3. Select one or more states of interest    
